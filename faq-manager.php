@@ -593,20 +593,31 @@ class WP_FAQ_Manager
 
 
 	public function sort_page() {
-		$questions = new WP_Query('post_type=question&posts_per_page=-1&orderby=menu_order&order=ASC');
+
+		$args = array(
+			'post_type'      => 'question',
+			'posts_per_page' => 500,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+			'no_found_rows' => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false
+		);
+
+		$questions = new WP_Query( $args );
 	?>
 		<div id="faq-admin-sort" class="wrap">
 		<div id="icon-faq-admin" class="icon32"><br /></div>
-		<h2><?php _e('Sort FAQs', 'wpfaq'); ?> <img src=" <?php echo admin_url(); ?>/images/loading.gif" id="loading-animation" /></h2>
+		<h2><?php _e( 'Sort FAQs', 'wpfaq' ); ?> <img src=" <?php echo esc_url( admin_url() . '/images/loading.gif' ); ?>" id="loading-animation" /></h2>
 			<?php if ( $questions->have_posts() ) : ?>
-	    	<p><?php _e('<strong>Note:</strong> this only affects the FAQs listed using the shortcode functions', 'wpfaq'); ?></p>
+	    	<p><?php _e( '<strong>Note:</strong> This only affects the FAQs listed using the shortcode functions', 'wpfaq' ); ?></p>
 			<ul id="custom-type-list">
 				<?php while ( $questions->have_posts() ) : $questions->the_post(); ?>
-					<li id="<?php the_id(); ?>"><?php the_title(); ?></li>
+					<li id="<?php esc_attr( the_id() ); ?>"><?php esc_html( the_title() ); ?></li>
 				<?php endwhile; ?>
 	    	</ul>
 			<?php else: ?>
-			<p><?php _e('You have no FAQs to sort.', 'wpfaq'); ?></p>
+			<p><?php _e( 'You have no FAQs to sort.', 'wpfaq' ); ?></p>
 			<?php endif; ?>
 		</div>
 
@@ -989,7 +1000,7 @@ class WP_FAQ_Manager
 			'hierarchical'            => false,
 			'menu_position'           => 20,
 			'capability_type'         => 'post',
-			'menu_icon'               => plugins_url( '/inc/img/faq_menu.png', __FILE__ ),
+			'menu_icon'               => 'dashicons-editor-help',
 			'query_var'               => true,
 			'rewrite'                 => array( 'slug' => $single, 'with_front' => false ),
 			'has_archive'             => $arch,
