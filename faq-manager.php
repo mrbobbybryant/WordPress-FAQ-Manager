@@ -613,7 +613,7 @@ class WP_FAQ_Manager
 	    	<p><?php _e( '<strong>Note:</strong> This only affects the FAQs listed using the shortcode functions', 'wpfaq' ); ?></p>
 			<ul id="custom-type-list">
 				<?php while ( $questions->have_posts() ) : $questions->the_post(); ?>
-					<li id="<?php esc_attr( the_id() ); ?>"><?php esc_html( the_title() ); ?></li>
+					<li id="<?php esc_attr( the_id() ); ?>"><?php esc_html_e( the_title() ); ?></li>
 				<?php endwhile; ?>
 	    	</ul>
 			<?php else: ?>
